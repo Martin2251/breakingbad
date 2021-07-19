@@ -1,13 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
-  useParams
+  Link,
+  useParams,
 } from "react-router-dom";
 
 function CharacterPage(){
@@ -20,7 +19,7 @@ function CharacterPage(){
         return response.json();
       })
       .then((data) => {
-        setListCharacters(data);
+        setCharacterData(data);
       });
   }, []);
   return <div>
@@ -31,7 +30,7 @@ function CharacterPage(){
 function Card(props) {
   return
     <Link to={`/character/${props.id}`}>
-    <div>
+    <div className="card">
       <h4>Name: {props.character.name}</h4>
       <p>Birthday: {props.character.birthday}</p>
       <p>Status: {props.character.status}</p>
@@ -58,12 +57,19 @@ function App() {
 
   return (
 
-    <div className="App">
     <Router>
+    <Route path="/character/:id">
+    <CharacterPage></CharacterPage>
+    </Route>
+    <Route to="/">
+    <div className="App">
       {listCharacters.map(function (character) {
         return <Card character={character}></Card>;
       })}
     </div>
+
+
+    </Route>
     </Router>
   );
 }
